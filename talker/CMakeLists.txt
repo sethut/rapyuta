@@ -37,7 +37,6 @@ find_package(catkin REQUIRED)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   message_generation
-  listener
 )
 ##   * add "message_runtime" and every package in MSG_DEP_SET to
 ##     catkin_package(CATKIN_DEPENDS ...)
@@ -47,9 +46,9 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-add_message_files(FILES
-  echomsg.msg
-)
+#add_message_files(FILES
+  #echomsg.msg
+#)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
