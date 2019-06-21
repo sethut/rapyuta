@@ -55,13 +55,13 @@ class echopub{
 
 
 int main(int argc, char* argv[]){
-    if(argc!=3&&argc!=5){
-        ROS_ERROR("input msg_size test_time %s %s ",argv[1],argv[2]);
-        exit(argc);
+    int msg_size=100;
+    int test_time=500;
+    if(argc==3&&argc==5){
+	msg_size=atoi(argv[1]);
+    	test_time=atoi(argv[2]);   
     }
     ros::init(argc,argv,"talker");
-    int msg_size=atoi(argv[1]);
-    int test_time=atoi(argv[2]);
     echopub epub(msg_size);
     ros::Rate loop_rate(10);
 
