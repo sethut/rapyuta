@@ -1,23 +1,19 @@
 #include <ros/ros.h>
-#include "listener/echomsg.h"
-#include "talker/echomsg.h"
+#include <std_msgs/Int32MultiArray.h>
 class echosub {
     private:
         ros::NodeHandle nh;
         ros::Subscriber subscriber;
         ros::Publisher publisher;
-        listener::echomsg msg;
+        std_msgs::Int32MultiArray msg;
     public:
         echosub(){
-            msg.sub_to_pub=0;
             subscriber=nh.subscribe("pub_to_sub",100,&echosub::Callback,this);
-            publisher=nh.advertise<listener::echomsg>("sub_to_pub",100);
+            publisher=nh.advertise<std_msgs::Int32MultiArray>("sub_to_pub",100);
         }
-        void Callback(const talker::echomsgConstPtr& ptr){
-            msg.sub_to_pub++;   
-            msg.pub_to_sub=ptr->pub_to_sub;
+        void Callback(const std_msgs::Int32MultiArray::ConstPtr& ptr){
             msg.data=ptr->data;
-            ROS_INFO("msg arrived! pub_to_sub %d",ptr->pub_to_sub);
+            ROS_INFO("msg arrived!");
             publisher.publish(msg);
         }
         /*void pub()

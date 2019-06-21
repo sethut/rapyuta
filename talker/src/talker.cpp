@@ -1,6 +1,5 @@
 #include <ros/ros.h>
-#include "talker/echomsg.h"
-#include "listener/echomsg.h"
+#include <std_msgs/Int32MultiArray.h>
 #include <vector>
 #include <ctime>
 class echopub{
@@ -14,35 +13,31 @@ class echopub{
         ros::NodeHandle nh;
         ros::Publisher publisher;
         ros::Subscriber subscriber;
-        talker::echomsg msg;
+        std_msgs::Int32MultiArray msg;
     public:
         echopub(int size){
-            for(int i=0; i<size; i++)
+            for(int i=0; i<size/4; i++)
                 msg.data.push_back(1); //resize msg for various data size
-            msg.pub_to_sub=0;
-            msg.sub_to_pub=0;
             time_arr.clear();
-            publisher=nh.advertise<talker::echomsg>("pub_to_sub",1);
+            publisher=nh.advertise<std_msgs::Int32MultiArray>("pub_to_sub",1);
             subscriber=nh.subscribe("sub_to_pub",100,&echopub::echocallback,this);
         }
         void pub(){
-            msg.pub_to_sub++;
             //ROS_INFO("msg size : %ldbyte  pub_to_sub : %d",
             //4*msg.data.size()+8,count,msg.pub_to_sub);;
             start=ros::Time::now().toSec();
             publisher.publish(msg);
         }
-        void echocallback(const listener::echomsgConstPtr& ptr){         
+        void echocallback(const std_msgs::Int32MultiArrayConstPtr& ptr){         
             end=ros::Time::now().toSec();    
             time=end-start;
             time_arr.push_back(time);
-            count = ptr->sub_to_pub; //real counting for sub_to_pub msg
-            ROS_INFO("CB msg size : %ldbyte  time : %f sub_to_pub : %d, %d",
-            4*msg.data.size()+8,time,count,ptr->pub_to_sub);
+            ROS_INFO("CB msg size : %ldbyte  time : %f",4*msg.data.size(),time);
         }
         void time_result(){
             double sum,avg_time=0;
             double max,min=time_arr.front();
+            int count=time_arr.size();
             for(std::vector<double>::iterator it=time_arr.begin(); it!=time_arr.end(); ++it){
                 if(*it>max)
                     max=*it;
