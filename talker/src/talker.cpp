@@ -32,7 +32,7 @@ class echopub{
             end=ros::Time::now().toSec();    
             time=end-start;
             time_arr.push_back(time);
-            ROS_INFO("CB msg size : %ldbyte  time : %f count : %d",4*msg.data.size(),time, msg.data.size());
+            ROS_INFO("CB msg size : %ldbyte  time : %f count : %ld",4*msg.data.size(),time, time_arr.size());
         }
         void time_result(){
             double sum,avg_time=0;
