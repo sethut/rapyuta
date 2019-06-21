@@ -66,12 +66,11 @@ int main(int argc, char* argv[]){
     echopub epub(msg_size);
     ros::Rate loop_rate(10);
 
-    //for(int i=0; i<test_time; i++)    {
-	while(ros::ok()){
+    for(int i=0; i<test_time; i++)    {
+	//while(ros::ok()){
         epub.pub();
         ros::spinOnce();        
         loop_rate.sleep();
-	printf("%d %s %s %s",argc,argv[0],argv[1],argv[2],argv[3]);
     }
     epub.time_result();
     return 0;
