@@ -1,0 +1,4 @@
+<launch>
+   <arg name="argv"/>
+   <node pkg="talker" type="talker" name="talker" args="$(arg argv)"/>
+</launch>
