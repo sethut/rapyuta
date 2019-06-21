@@ -37,6 +37,7 @@ find_package(catkin REQUIRED)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   message_generation
+  talker
 )
 ##   * add "message_runtime" and every package in MSG_DEP_SET to
 ##     catkin_package(CATKIN_DEPENDS ...)
@@ -46,9 +47,9 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-add_message_files(FILES
-  echomsg.msg
-)
+#add_message_files(FILES
+  #echomsg
+#)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -196,7 +197,7 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-#add_dependencies(talker ${catkin_EXPORTED_TARGETS})
+add_dependencies(talker ${catkin_EXPORTED_TARGETS})
 
 add_executable(listener
   src/listener.cpp
