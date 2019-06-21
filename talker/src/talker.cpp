@@ -65,7 +65,8 @@ int main(int argc, char* argv[]){
     echopub epub(msg_size);
     ros::Rate loop_rate(10);
 
-    for(int i=0; i<test_time; i++)    {
+    //for(int i=0; i<test_time; i++)    {
+	while(ros::ok()){
         epub.pub();
         ros::spinOnce();        
         loop_rate.sleep();
