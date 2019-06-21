@@ -197,7 +197,11 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-add_dependencies(talker ${PROJECT_NAME}_EXPORTED_TARGETS)
+add_custom_target(
+    #talker ALL
+    DEPENDS talker/msg/echomsg.msg
+    )
+#add_dependencies(talker ${PROJECT_NAME}_EXPORTED_TARGETS)
 
 add_executable(listener
   src/listener.cpp
