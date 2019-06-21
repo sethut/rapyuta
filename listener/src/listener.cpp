@@ -8,11 +8,12 @@ class echosub {
         std_msgs::Int32MultiArray msg;
     public:
         echosub(){
-            subscriber=nh.subscribe("pub_to_sub",100,&echosub::Callback,this);
-            publisher=nh.advertise<std_msgs::Int32MultiArray>("sub_to_pub",100);
+            subscriber=nh.subscribe("pub_to_sub",1,&echosub::Callback,this);
+            publisher=nh.advertise<std_msgs::Int32MultiArray>("sub_to_pub",1);
         }
         void Callback(const std_msgs::Int32MultiArray::ConstPtr& ptr){
             msg.data=ptr->data;
+            msg.layout.data_offset=ptr->layout.data_offset;
             ROS_INFO("msg arrived!");
             publisher.publish(msg);
         }
@@ -28,3 +29,4 @@ int main(int argc, char* argv[]){
     echosub eh;
     ros::spin();
 }
+
