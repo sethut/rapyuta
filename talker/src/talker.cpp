@@ -32,7 +32,7 @@ class echopub{
             end=ros::Time::now().toSec();    
             time=end-start;
             time_arr.push_back(time);
-            ROS_INFO("CB msg size : %ldbyte  time : %f",4*msg.data.size(),time);
+            //ROS_INFO("CB msg size : %ldbyte  time : %f",4*msg.data.size(),time);
         }
         void time_result(){
             double sum,avg_time=0;
@@ -57,17 +57,15 @@ class echopub{
 int main(int argc, char* argv[]){
     int msg_size=100;
     int test_time=500;
-
-    if(argc==3&&argc==5){
+    if(argc==3||argc==5){
 	msg_size=atoi(argv[1]);
-    	test_time=atoi(argv[2]);   
+    test_time=atoi(argv[2]);   
     }
     ros::init(argc,argv,"talker");
     echopub epub(msg_size);
     ros::Rate loop_rate(10);
 
     for(int i=0; i<test_time; i++)    {
-	//while(ros::ok()){
         epub.pub();
         ros::spinOnce();        
         loop_rate.sleep();
@@ -75,5 +73,6 @@ int main(int argc, char* argv[]){
     epub.time_result();
     return 0;
 }
+
 
 
