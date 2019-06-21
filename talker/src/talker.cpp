@@ -1,5 +1,6 @@
 #include <ros/ros.h>
 #include "talker/echomsg.h"
+#include "listener/echomsg.h"
 #include <vector>
 #include <ctime>
 class echopub{
@@ -31,7 +32,7 @@ class echopub{
             start=ros::Time::now().toSec();
             publisher.publish(msg);
         }
-        void echocallback(const talker::echomsgConstPtr& ptr){         
+        void echocallback(const listener::echomsgConstPtr& ptr){         
             end=ros::Time::now().toSec();    
             time=end-start;
             time_arr.push_back(time);
