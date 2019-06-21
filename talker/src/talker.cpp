@@ -57,6 +57,7 @@ class echopub{
 int main(int argc, char* argv[]){
     int msg_size=100;
     int test_time=500;
+
     if(argc==3&&argc==5){
 	msg_size=atoi(argv[1]);
     	test_time=atoi(argv[2]);   
@@ -70,6 +71,7 @@ int main(int argc, char* argv[]){
         epub.pub();
         ros::spinOnce();        
         loop_rate.sleep();
+	printf("%d %s %s %s",argc,argv[0],argv[1],argv[2],argv[3]);
     }
     epub.time_result();
     return 0;
