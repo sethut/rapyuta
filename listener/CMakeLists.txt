@@ -201,8 +201,6 @@ add_custom_target(
     #talker ALL
     DEPENDS talker/msg/echomsg.msg
     )
-#add_dependencies(talker ${PROJECT_NAME}_EXPORTED_TARGETS)
-
 add_executable(listener
   src/listener.cpp
 )

@@ -1,6 +1,7 @@
     #include <ros/ros.h>
     #include "talker/echomsg.h"
     #include <vector>
+    int pubcount=0;
     class echopub{
         private://for check taken time 
             double end;
@@ -19,17 +20,18 @@
                 publisher=nh.advertise<talker::echomsg>("pub_to_sub",100);
                 subscriber=nh.subscribe("sub_to_pub",100,&echopub::echocallback,this);
             }
-            void pub(){ 
-                msg.count++;
+            void pub(){
                 msg.delay=ros::Time::now().toSec();
+                msg.count=pubcount++;
                 publisher.publish(msg);
+                ros::spinOnce();
             }
-            void echocallback(const talker::echomsgConstPtr& ptr){         
+            void echocallback(const talker::echomsgConstPtr& ptr){
                 end=ros::Time::now().toSec();
                 time=end-ptr->delay;
                 time_arr.push_back(time);
-                ROS_INFO("CB msg size : %ldbyte  time : %f count : %ld",
-                4*ptr->data.size()+12,time,time_arr.size());
+                ROS_INFO("CB msg size : %ldbyte  time : %f count : %d",
+                4*ptr->data.size()+12,time,ptr->count);
             }
             void time_result(){
                 double sum,avg_time=0;
@@ -57,10 +59,9 @@
         ros::init(argc,argv,"talker");
         echopub epub(msg_size);
         ros::Rate loop_rate(10);
-        for(int i=0; i<test_time; i++){
-            epub.pub();
-            ros::spinOnce();
-            loop_rate.sleep();        
+        while(pubcount<test_time){
+        epub.pub();
+        loop_rate.sleep();
         }
         epub.time_result();
         return 0;
