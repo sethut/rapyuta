@@ -50,10 +50,6 @@
             }
     };
     int main(int argc, char* argv[]){
-        if(argc!=3&&argc!=5){
-            ROS_ERROR("input msg_size test_time");
-            exit(argc);
-        }
         int msg_size=atoi(argv[1]);
         int test_time=atoi(argv[2]);   
         ros::init(argc,argv,"talker");
