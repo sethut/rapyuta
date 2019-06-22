@@ -1,7 +1,7 @@
 #include <ros/ros.h>
 #include "talker/echomsg.h"
 int pubcount=0;
-class echosub {
+class echosub{
     private:
         ros::NodeHandle nh;
         ros::Subscriber subscriber;
@@ -17,14 +17,15 @@ class echosub {
             msg.data=ptr->data;
             msg.delay=ptr->delay;
             msg.count =ptr->count;
+            printf("%d",ptr->count);
             ROS_INFO("msg arrived!");
             publisher.publish(msg);
         }
 };
 int main(int argc, char* argv[]){
     ros::init(argc,argv,"listener");
-    echosub eh;
-    
+    echosub listener;
+
     ros::spin();
     return 0;
 }
