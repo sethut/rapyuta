@@ -50,7 +50,7 @@
             }
     };
     int main(int argc, char* argv[]){
-        if(argc!=5){
+        if(argc!=3&&argc!=5){
             ROS_ERROR("input msg_size test_time");
             exit(argc);
         }
