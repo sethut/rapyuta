@@ -1,6 +1,6 @@
 #include <ros/ros.h>
 #include "talker/echomsg.h"
-int pubcount=0;
+
 class echosub{
     private:
         ros::NodeHandle nh;
@@ -13,11 +13,9 @@ class echosub{
             publisher=nh.advertise<talker::echomsg>("sub_to_pub",100);
         }
         void Callback(const talker::echomsgConstPtr& ptr){
-            pubcount=ptr->count;
             msg.data=ptr->data;
             msg.delay=ptr->delay;
             msg.count =ptr->count;
-            printf("%d",ptr->count);
             ROS_INFO("msg arrived!");
             publisher.publish(msg);
         }
@@ -25,7 +23,8 @@ class echosub{
 int main(int argc, char* argv[]){
     ros::init(argc,argv,"listener");
     echosub listener;
-
-    ros::spin();
+    while(ros::ok()){
+    ros::spinOnce();
+    }
     return 0;
 }

@@ -12,7 +12,7 @@
             ros::Publisher publisher;
             ros::Subscriber subscriber;
             talker::echomsg msg;
-        public:
+        public: 
             echopub(int size){
                 for(int i=0; i<size; i++)
                     msg.data.push_back(1); //for various data size
@@ -20,7 +20,7 @@
                 publisher=nh.advertise<talker::echomsg>("pub_to_sub",100);
                 subscriber=nh.subscribe("sub_to_pub",100,&echopub::echocallback,this);
             }
-            void pub(){
+            int pub(){
                 msg.delay=ros::Time::now().toSec();
                 msg.count=pubcount++;
                 publisher.publish(msg);
@@ -50,16 +50,19 @@
             }
     };
     int main(int argc, char* argv[]){
+        if(argc!=5){
+            ROS_ERROR("input msg_size test_time");
+            exit(argc);
+        }
         int msg_size=atoi(argv[1]);
         int test_time=atoi(argv[2]);   
         ros::init(argc,argv,"talker");
         echopub talker(msg_size);
         ros::Rate loop_rate(10);
         while(pubcount<=test_time){
-            talker.pub();
             loop_rate.sleep();
+            talker.pub();
         }
-        ros::spinOnce();
         talker.time_result();
         return 0;
     }
