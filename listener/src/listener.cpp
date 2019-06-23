@@ -15,7 +15,7 @@ class echosub{
         void Callback(const talker::echomsgConstPtr& ptr){
             msg.data=ptr->data;
             msg.delay=ptr->delay;
-            msg.count =ptr->count;
+            msg.count=ptr->count;
             ROS_INFO("msg arrived!");
             publisher.publish(msg);
         }
