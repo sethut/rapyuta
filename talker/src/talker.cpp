@@ -6,7 +6,7 @@
         private://for check taken time 
             double end;
             double time;
-            std::vector<double>time_arr; //save taken time
+           // std::vector<double>time_arr; //save taken time
         private:
             ros::NodeHandle nh;
             ros::Publisher publisher;
@@ -18,15 +18,14 @@
                     msg.data.push_back(1); //for various data size
                 msg.count=0;
                 publisher=nh.advertise<talker::echomsg>("pub_to_sub",100);
-                subscriber=nh.subscribe("sub_to_pub",100,&echopub::echocallback,this);
+                //subscriber=nh.subscribe("sub_to_pub",100,&echopub::echocallback,this);
             }
             int pub(){
                 msg.delay=ros::Time::now().toSec();
                 msg.count=pubcount++;
                 publisher.publish(msg);
-                ros::spinOnce();
             }
-            void echocallback(const talker::echomsgConstPtr& ptr){
+            /*void echocallback(const talker::echomsgConstPtr& ptr){
                 end=ros::Time::now().toSec();
                 time=end-ptr->delay;
                 time_arr.push_back(time);
@@ -47,7 +46,7 @@
                 ROS_INFO("avg time : %f",avg_time);
                 ROS_INFO("max time : %f",max);
                 ROS_INFO("min time : %f",min);
-            }
+            }*/
     };
     int main(int argc, char* argv[]){
         if(argc!=5){
@@ -63,6 +62,6 @@
             loop_rate.sleep();
             talker.pub();
         }
-        talker.time_result();
+        //snaptalker.time_result();
         return 0;
     }

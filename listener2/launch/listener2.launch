@@ -1,0 +1,3 @@
+<launch>
+	<node pkg="listener2" type="listener2" name="listener2" output="screen"/>
+</launch>
