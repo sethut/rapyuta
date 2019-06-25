@@ -1,12 +1,12 @@
 #include <ros/ros.h>
 #include "talker/echomsg.h"
-#include "listener/echomsg.h"
+
 class echosub{
     private:
         ros::NodeHandle nh;
         ros::Subscriber subscriber;
         ros::Publisher publisher;
-        listener::echomsg msg;
+        talker::echomsg msg;
     public:
         echosub(){
             subscriber=nh.subscribe("pub_to_sub",100,&echosub::Callback,this);
@@ -16,6 +16,7 @@ class echosub{
             msg.data=ptr->data;
             msg.delay=ptr->delay;
             msg.count=ptr->count;
+            msg.listenertime=ros::Time::now().toSec();
             ROS_INFO("msg arrived!");
             publisher.publish(msg);
         }

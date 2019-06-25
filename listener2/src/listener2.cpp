@@ -7,8 +7,11 @@ std::vector<double> time_arr;
 void callback(const talker::echomsgConstPtr& ptr){
         double end=ros::Time::now().toSec();
         double result_time=end-ptr->delay;
+        double talker_to_listener = ptr->listenertime - ptr->delay;
+        double listener_to_listener2 = end - ptr->listenertime;
         ROS_INFO("CB msg size : %ld byte time : %f count : %d",
         4*ptr->data.size()+8,result_time,ptr->count);
+        ROS_INFO("talker to listener : %f, listener to listener2 : %f",talker_to_listener,listener_to_listener2);
         time_arr.push_back(result_time);
 }
 void time_result(){
@@ -30,13 +33,13 @@ void time_result(){
 void SIGINT_callback(int signum){
     time_result();
     exit(signum);
-    //kill(getpid(),SIGKILL);
 }
 
 int main(int argc,char*argv[]){
     ros::init(argc,argv,"listener2");
     ros::NodeHandle nh;
     ros::Subscriber subscriber = nh.subscribe("sub_to_sub",100,callback);
+    signal(SIGINT,SIGINT_callback);
     while(ros::ok())
         ros::spinOnce();
     return 0;

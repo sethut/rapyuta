@@ -17,13 +17,14 @@ class echopub{
             for(int i=0; i<size; i++)
                 msg.data.push_back(1); //for various data size
             msg.count=0;
+            msg.listenertime=0;
             publisher=nh.advertise<talker::echomsg>("pub_to_sub",100);
         }
         int pub(){
             msg.delay=ros::Time::now().toSec();
             msg.count=pubcount++;
             publisher.publish(msg);
-            }
+        }
 };
 int main(int argc, char* argv[]){
     if(argc!=5){
@@ -36,7 +37,7 @@ int main(int argc, char* argv[]){
     echopub talker(msg_size);
     ros::Rate loop_rate(10);
     while(pubcount<=test_time){
-        loop_rate.sleep();
+        loop_rate.sleep(); 
         talker.pub();
     }
     return 0;
